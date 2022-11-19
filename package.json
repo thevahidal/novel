@@ -9,8 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cyclic-dynamodb": "^0.0.27",
     "next": "13.0.3",
+    "nextjs-cors": "^2.1.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "supertokens-auth-react": "^0.27.1",
+    "supertokens-node": "^12.0.6",
+    "zustand": "^4.1.4"
   }
 }

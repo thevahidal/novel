@@ -2,6 +2,12 @@
   padding: 0 2rem;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .story {
   min-height: 100vh;
   padding: 4rem;
@@ -52,7 +58,18 @@
 }
 
 .story span.part.editing {
+  display: inline-block;
   min-width: 300px;
+}
+
+.story span.part.editing input {
+  background: none;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
 }
 
 .story span.part span.author {
@@ -67,7 +84,8 @@
   white-space: nowrap;
 }
 
-.story span.part:hover span.author {
+.story span.part:hover span.author, 
+.story span.part.editing span.author {
   display: unset;
 }
 
@@ -88,4 +106,8 @@
   background: #b7ffd3;
   height: 1.2rem;
   width: 1.2rem;
+}
+
+.addPart.placeholder {
+  opacity: 0;
 }
