@@ -8,12 +8,18 @@ import styles from '../styles/Home.module.css';
 import useUser from '../store/store';
 
 const StoryPart = ({ children, author, color, editing, onSubmitEditing }) => {
+  const [content, setContent] = useState(children);
+  console.log(author);
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (onSubmitEditing) {
-      onSubmitEditing();
+      onSubmitEditing(content);
     }
+  };
+
+  const handleChange = (event) => {
+    setContent(event.target.value);
   };
 
   return (
@@ -23,8 +29,9 @@ const StoryPart = ({ children, author, color, editing, onSubmitEditing }) => {
           <input
             type='text'
             placeholder='Write your part'
-            value={children}
+            value={content}
             autoFocus
+            onChange={handleChange}
           />
         </form>
       ) : (
@@ -44,78 +51,77 @@ const getARandomLightColor = () => {
   return color;
 };
 
-const PARTS = [
-  {
-    id: 1,
-    author: 'Jack White',
-    text: 'Once upon a time, there was a painter named "P".',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 2,
-    author: 'Charles Dickens',
-    text: 'P was a very talented painter, but he was also very lazy.',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 3,
-    author: 'Charles Bukowski',
-    text: 'P was so lazy that he would rather sleep than paint.',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 4,
-    author: 'Alber Camus',
-    text: 'One day, P was sleeping in his bed when he heard a knock on the door.',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 5,
-    author: 'Rachel Carson',
-    text: 'P opened the door and saw, ',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 6,
-    author: 'Virginia Woolf',
-    text: 'a beautiful',
-    color: getARandomLightColor(),
-  },
-  {
-    id: 7,
-    author: 'Leo Tolstoy',
-    text: 'box, wrapped in some old newspapers.',
-    color: getARandomLightColor(),
-  },
-];
-
 export default function Home() {
-  const [parts, setParts] = useState(PARTS);
+  const [parts, setParts] = useState([]);
   const [editing, setEditing] = useState(null);
+  const [story, setStory] = useState({});
+
   const session = useSessionContext();
   const user = useUser((state) => state.user);
   const setUser = useUser((state) => state.setUser);
 
   const handleLogout = async () => {
-    await fetch('/api/delete-user'); // this will succeed even if the userId didn't exist.
+    await fetch('/api/user/delete'); // this will succeed even if the userId didn't exist.
 
     await SessionReact.signOut();
     window.location.href = '/';
   };
 
+  const handleCreateStory = async () => {
+    await fetch('/api/stories/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: 'A Painter called "P"',
+      }),
+    });
+  };
+
+  const handleCreatePart = async (content) => {
+    await fetch(`/api/stories/${story.key}/parts/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content,
+      }),
+    });
+  };
+
   const fetchUserData = async () => {
-    const res = await fetch('/api/get-user');
+    const res = await fetch('/api/user/get');
     if (res.status === 200) {
       const json = await res.json();
       setUser({ id: json.id, ...json.props });
     }
   };
 
+  const fetchStories = async () => {
+    const res = await fetch('/api/stories/list');
+    if (res.status === 200) {
+      const json = await res.json();
+      const _story = json.data.results[json.data.results.length - 1];
+      setStory(_story);
+      setParts(_story.props.parts);
+    }
+  };
+
+  useEffect(() => {
+    fetchStories();
+  }, []);
+
+  console.log(user);
+
   useEffect(() => {
     if (session.doesSessionExist) {
       fetchUserData();
     }
-  }, []);
+  }, [session.loading]);
+
+  console.log(parts);
 
   return (
     <div className={styles.container}>
@@ -135,24 +141,28 @@ export default function Home() {
           ) : (
             <a onClick={handleLogout}>Delete and Logout</a>
           )}
+          <a onClick={handleCreateStory}>Create a Story</a>
         </div>
       </nav>
       <main className={styles.story}>
         <h1 className={styles.title}>
-          <StoryPart author={'Vahid Al'}>A painter called P</StoryPart>
+          <StoryPart author={story.props?.authorName}>
+            {story.props?.title}
+          </StoryPart>
         </h1>
 
         <div className={styles.body}>
           {parts.map((part, index) => (
             <React.Fragment key={part.id}>
               <StoryPart
-                author={part.author}
+                author={part.authorName}
                 color={part.color}
                 editing={part.editing}
+                onSubmitEditing={handleCreatePart}
               >
-                {part.text}
+                {part.content}
               </StoryPart>
-              {!editing || index === parts.length - 1 ? (
+              {false ? (
                 <span
                   className={`${styles.addPart} ${
                     index === parts.length - 1 ? styles.visible : ''
@@ -164,7 +174,7 @@ export default function Home() {
                       {
                         id: parts.length + 1,
                         editing: true,
-                        author: user.name,
+                        authorName: user.name,
                       },
                     ]);
                   }}
@@ -178,6 +188,22 @@ export default function Home() {
               )}
             </React.Fragment>
           ))}
+          <span
+            className={`${styles.addPart} ${styles.visible}`}
+            onClick={() => {
+              setEditing(parts.length + 1);
+              setParts([
+                ...parts,
+                {
+                  id: parts.length + 1,
+                  editing: true,
+                  authorName: user.name,
+                },
+              ]);
+            }}
+          >
+            + Add a Part
+          </span>
         </div>
       </main>
 

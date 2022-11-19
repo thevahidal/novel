@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import ThirdPartyPasswordlessNode from 'supertokens-node/recipe/thirdpartypasswordless';
@@ -5,15 +6,20 @@ import supertokens from 'supertokens-node';
 import NextCors from 'nextjs-cors';
 import CyclicDb from 'cyclic-dynamodb';
 
-import { backendConfig } from '../../config/backendConfig';
+import { backendConfig } from '../../../config/backendConfig';
 
 const db = CyclicDb(process.env.AWS_DYNAMODB_TABLE_NAME);
 
 const users = db.collection('users');
+const stories = db.collection('stories');
 
 supertokens.init(backendConfig());
 
 export default async function user(req, res) {
+  //   return res.status(403).json({
+  //     message: 'Locked for now',
+  //   });
+
   // NOTE: We need CORS only if we are querying the APIs from a different origin
   await NextCors(req, res, {
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
@@ -34,8 +40,17 @@ export default async function user(req, res) {
   const userId = req.session.getUserId();
   const userInfo = await users.get(userId);
 
+  const storyId = crypto.randomUUID();
+  const storyInfo = await stories.set(storyId, {
+    author: userId,
+    authorName: userInfo.props.name,
+    title: req.body.title,
+    parts: [],
+    main: false,
+  });
+
   return res.json({
-    ...userInfo,
-    id: userId,
+    ...storyInfo,
+    id: storyId,
   });
 }

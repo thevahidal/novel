@@ -8,6 +8,10 @@
   align-items: center;
 }
 
+.navbar .links a {
+  padding: 0 0.5rem;
+}
+
 .story {
   min-height: 100vh;
   padding: 4rem;
@@ -105,7 +109,8 @@
   opacity: 1;
   background: #b7ffd3;
   height: 1.2rem;
-  width: 1.2rem;
+  min-width: 1.2rem;
+  padding: 1rem 1.6rem;
 }
 
 .addPart.placeholder {
