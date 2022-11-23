@@ -1,0 +1,72 @@
+span.part {
+  font-size: 1.2rem;
+  position: relative;
+  padding: 0.3rem 0.6rem;
+  border-right: 2px solid var(--color);
+  border-left: 2px solid var(--color);
+}
+
+span.part.title {
+    font-size: 1.8rem !important;
+}
+  
+span.part:hover,
+span.part.editing {
+  background-color: var(--color);
+  border-radius: 0.5rem;
+  transition: 0.3s all;
+}
+
+span.part.editing {
+  display: inline-block;
+  min-width: 300px;
+}
+
+span.part.editing input {
+  background: none;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+}
+
+span.part span.author,
+span.part span.timestamp {
+  font-size: 0.8rem;
+  background-color: var(--color);
+  border-radius: 0.5rem;
+  display: none;
+  padding: 0.2rem 0.6rem;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+span.part span.author {
+  left: 0;
+  top: -1.9rem;
+}
+
+span.part span.timestamp {
+  left: 0;
+  bottom: -1.9rem;
+}
+
+span.part:hover span.author,
+span.part.editing span.author,
+span.part:hover span.timestamp,
+span.part.editing span.timestamp {
+  display: unset;
+}
+
+.input {
+  display: flex;
+}
+
+.input button {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+}

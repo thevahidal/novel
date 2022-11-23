@@ -1,0 +1,46 @@
+.story {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
+}
+
+.story .title {
+    margin-top: 0.5rem;
+}
+
+.story .body {
+  margin: 2rem 0 4rem;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.addPart {
+  opacity: 0.1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: 0.2s all;
+  border-radius: 4.5rem;
+  cursor: pointer;
+  margin: 0.2rem;
+}
+
+.addPart:hover,
+.addPart.visible {
+  opacity: 1;
+  background: var(--colors-brand);
+  height: 1.2rem;
+  min-width: 1.2rem;
+  padding: 1rem 1.6rem;
+}
+
+.addPart.placeholder {
+  opacity: 0;
+}
+
+.main {
+    font-weight: bold;
+    color: var(--colors-brand);
+}

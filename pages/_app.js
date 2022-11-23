@@ -1,19 +1,22 @@
-import React from 'react';
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
+import React, { useState } from 'react';
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
+import Layout from '../components/Layout';
 import '../styles/globals.css';
-import { frontendConfig } from '../config/frontendConfig';
-
-if (typeof window !== 'undefined') {
-  // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
-  SuperTokensReact.init(frontendConfig());
-}
 
 function MyApp({ Component, pageProps }) {
+  const [supabase] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <SuperTokensWrapper>
-      <Component {...pageProps} />
-    </SuperTokensWrapper>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={pageProps.initialSession}
+    >
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionContextProvider>
   );
 }
 
