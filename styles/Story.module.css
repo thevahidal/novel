@@ -30,7 +30,7 @@
 .addPart:hover,
 .addPart.visible {
   opacity: 1;
-  background: var(--colors-brand);
+  background: var(--custom-color-brand);
   height: 1.2rem;
   min-width: 1.2rem;
   padding: 1rem 1.6rem;
@@ -42,5 +42,11 @@
 
 .main {
     font-weight: bold;
-    color: var(--colors-brand);
+    color: var(--custom-color-brand);
+}
+
+.empty {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
 }

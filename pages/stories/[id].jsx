@@ -20,8 +20,10 @@ const StoryPage = (props) => {
   };
 
   useEffect(() => {
-    fetchStory(storyId)
-  }, [])
+    if (storyId) {
+        fetchStory(storyId)
+    }
+  }, [storyId])
 
   return <Story story={story} loading={storyLoading} />;
 };

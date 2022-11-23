@@ -19,6 +19,9 @@ export default function Home() {
   const [featured, setFeatured] = useState([]);
   const [featuredLoading, setFeaturedLoading] = useState(true);
 
+  const [recent, setRecent] = useState([]);
+  const [recentLoading, setRecentLoading] = useState(true);
+
   const setUser = useUserStore((state) => state.setUser);
   const getUserColor = useUserColorStore((state) => state.getUserColor);
 
@@ -45,12 +48,26 @@ export default function Home() {
       method: 'GET',
     });
     const { data } = await res.json();
-    setFeatured(data);
+    setRecent(data);
+    setRecentLoading(false);
+  };
+
+  const fetchCoverStory = async () => {
+    const res = await fetch('/api/stories?is_cover=true', {
+      method: 'GET',
+    });
+    const { data } = await res.json();
     const featuredStory = data[0];
     setStory(featuredStory);
-
-    getUserColor(featuredStory.author?.id);
     setStoryLoading(false);
+  };
+
+  const fetchFeaturedStories = async () => {
+    const res = await fetch('/api/stories?is_featured=true', {
+      method: 'GET',
+    });
+    const { data } = await res.json();
+    setFeatured(data);
     setFeaturedLoading(false);
   };
 
@@ -61,7 +78,9 @@ export default function Home() {
   }, [user]);
 
   useEffect(() => {
+    fetchCoverStory();
     fetchStories();
+    fetchFeaturedStories();
   }, []);
 
   return (
@@ -73,6 +92,11 @@ export default function Home() {
       </Head>
       <Story story={story} loading={storyLoading} isMain={true} />
       <FeaturedStories stories={featured} loading={featuredLoading} />
+      <FeaturedStories
+        title={'Recent Stories'}
+        stories={recent}
+        loading={recentLoading}
+      />
     </>
   );
 }
