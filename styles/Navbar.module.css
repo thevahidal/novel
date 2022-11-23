@@ -1,0 +1,27 @@
+.navbar > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .brand h1 {
+  margin-bottom: 0.3rem;
+}
+
+.navbar .brand a {
+  text-decoration: none;
+}
+
+.navbar .brand .slogan {
+  margin-top: 0;
+}
+
+.navbar .links a {
+  padding: 0 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar .links a:hover {
+  text-decoration: underline;
+}

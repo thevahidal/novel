@@ -1,7 +1,8 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
+import { colorLuminance, getRandomColor } from '../utils/colors';
 
-const useUser = create(
+const useUserStore = create(
   persist(
     (set, get) => ({
       user: {},
@@ -9,10 +10,30 @@ const useUser = create(
         set(() => ({ user: params }));
       },
       logoutUser: () => {
-        set((state) => ({ user: {} }));
+        set(() => ({ user: {} }));
       },
     }),
-    { name: 'store' }
+    { name: 'users' }
   )
 );
-export default useUser;
+
+const useUserColorStore = create(
+  persist(
+    (set, get) => ({
+      colors: {},
+      getUserColor: (params) => {
+        let color = get().colors[params];
+
+        if (!color) {
+          color = colorLuminance(getRandomColor(), -0.5);
+          set((state) => ({ colors: { ...state.colors, [params]: color } }));
+        }
+
+        return color;
+      },
+    }),
+    { name: 'colors' }
+  )
+);
+
+export { useUserStore, useUserColorStore };

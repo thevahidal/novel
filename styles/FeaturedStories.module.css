@@ -1,0 +1,38 @@
+
+.featured {
+  margin: 2rem 0 3rem;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  text-decoration: none;
+}
+
+.card:hover {
+  border-color: #666;
+  transition: 0.3s all;
+}
+
+.card .title {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.card .author {
+  margin-bottom: 2rem;
+  color: #aaa;
+}
+
+.card .timestamp {
+  margin-top: auto;
+}

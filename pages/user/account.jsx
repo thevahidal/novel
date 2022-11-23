@@ -1,18 +1,10 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Account from '../../components/Account'
-import { useEffect } from 'react'
 
-
-const Login = () => {
+const AccountPage = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
-
-  useEffect(() => {
-    if (session) {
-      window.location.href = '/'
-    }
-  }, [session])
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
@@ -25,4 +17,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default AccountPage
