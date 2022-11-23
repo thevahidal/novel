@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from '../styles/FeaturedStories.module.css';
 
-const FeaturedStories = (props) => {
+const FeaturedStories = ({title, ...props}) => {
   const [featured, setFeatured] = useState(props.stories);
   const [featuredLoading, setFeaturedLoading] = useState(props.loading);
 
@@ -16,12 +16,12 @@ const FeaturedStories = (props) => {
 
   return (
     <div className={styles.featured}>
-      <h2>Featured Stories</h2>
+      <h2>{title || 'Featured Stories'}</h2>
       <div className={styles.items}>
         {featuredLoading ? (
-          <div>Fetching featured stories...</div>
+          <div>Fetching {title?.toLowerCase() || 'featured stories'}...</div>
         ) : (
-          featured.map((story) => (
+            featured.length > 0 ? featured.map((story) => (
             <Link key={story.id} className={styles.card} href={`/stories/${story.id}`}>
               <h4 className={styles.title}>{story.title}</h4>
 
@@ -30,7 +30,7 @@ const FeaturedStories = (props) => {
                 dateStyle: 'medium', 
               }).format(new Date(story.created_at))}</div>
             </Link>
-          ))
+          )) : <div>No {title?.toLowerCase() || 'featured stories'} available yet.</div>
         )}
       </div>
     </div>

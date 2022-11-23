@@ -1,0 +1,33 @@
+
+.wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  padding: 2rem;
+  background-color: #222;
+  width: 300px;
+  border-radius: 2rem;
+  z-index: 9;
+}
+
+.underlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.headerTitle {
+  margin-top: 0;
+}

@@ -5,8 +5,10 @@
 
 .items {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   column-gap: 10px;
+  row-gap: 10px;
 }
 
 .card {
@@ -26,6 +28,11 @@
 .card .title {
   margin: 0;
   margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
 }
 
 .card .author {

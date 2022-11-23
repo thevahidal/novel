@@ -123,7 +123,7 @@ const Story = ({isMain, ...props}) => {
           <div>Fetching the story parts...</div>
         ) : (
           <>
-            {parts.map((part, index) => (
+            {parts.length > 0 ? parts.map((part, index) => (
               <React.Fragment key={part.id}>
                 <StoryPart
                   author={part.author?.full_name}
@@ -153,7 +153,7 @@ const Story = ({isMain, ...props}) => {
                   ></span>
                 )}
               </React.Fragment>
-            ))}
+            )) : <div className={styles.empty}>[ Be the first one who adds a part to this story ]</div>}
             {!editing && (
               <button
                 className={`${styles.addPart} ${styles.visible}`}

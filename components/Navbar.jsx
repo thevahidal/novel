@@ -2,6 +2,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
 
 import styles from '../styles/Navbar.module.css';
+import CreateStory from './CreateStory';
 
 const Navbar = () => {
   const session = useSession();
@@ -13,24 +14,6 @@ const Navbar = () => {
     window.location.href = '/';
   };
 
-  const handleCreateStory = async () => {
-    if (!session) {
-      alert('You need to login in order to create an story!');
-      window.location.href = '/auth/login?callback=/';
-
-      return;
-    }
-
-    const res = await fetch('/api/stories', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: 'Untitled Story!',
-      }),
-    });
-  };
 
   return (
     <nav className={styles.navbar}>
@@ -47,9 +30,7 @@ const Navbar = () => {
           ) : (
             <a onClick={handleLogout}>Logout</a>
           )}
-          <button className='button' onClick={handleCreateStory}>
-            Create a Story
-          </button>
+          <CreateStory />
         </div>
       </div>
     </nav>

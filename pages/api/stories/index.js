@@ -40,14 +40,32 @@ export default async (req, res) => {
     }
 
     const { title } = req.body;
-    const { data, error, status } = await supabaseClient
-      .from('stories')
-      .insert({
-        author: user.id,
-        title: title,
+
+    if (!title) {
+      return res.status(400).json({
+        error: 'invalid_body',
       });
+    }
+
+    const { error, status } = await supabaseClient.from('stories').insert({
+      author: user.id,
+      title: title,
+    });
+
+    const { data } = await supabaseClient
+      .from('stories')
+      .select('id')
+      .eq('author', user.id)
+      .order('created_at', {
+        ascending: false,
+      })
+      .limit(1)
+      .single();
+    console.log({ data });
+
     res.status(status).json({ data, error });
   } else if (req.method === 'GET') {
+    const { limit = 6, is_featured = false, is_cover = false } = req.query;
     const { data, error, status } = await supabaseClient
       .from('stories')
       .select(
@@ -63,7 +81,13 @@ export default async (req, res) => {
         updated_at
       `
       )
-      .eq('is_published', true);
+      .eq('is_published', true)
+      .eq('is_featured', is_featured)
+      .eq('is_cover', is_cover)
+      .limit(limit)
+      .order('created_at', {
+        ascending: false,
+      });
     res.status(status).json({ data, error });
   } else {
     res.status(405);
