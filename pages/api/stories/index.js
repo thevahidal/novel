@@ -61,7 +61,6 @@ export default async (req, res) => {
       })
       .limit(1)
       .single();
-    console.log({ data });
 
     res.status(status).json({ data, error });
   } else if (req.method === 'GET') {
