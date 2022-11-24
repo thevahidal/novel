@@ -5,9 +5,12 @@ import { useUserColorStore, useUserStore } from '../store/store';
 import styles from '../styles/Story.module.css';
 import StoryPart from './StoryPart';
 
-const Story = ({isMain, ...props}) => {
+const Story = ({ isMain, ...props }) => {
   const [parts, setParts] = useState([]);
   const [partsLoading, setPartsLoading] = useState(true);
+
+  const [createPartLoading, setCreatePartLoading] = useState(false);
+
   const [editing, setEditing] = useState(null);
   const [story, setStory] = useState(props.story || {});
   const [storyLoading, setStoryLoading] = useState(props.loading);
@@ -55,6 +58,8 @@ const Story = ({isMain, ...props}) => {
   const handleCreatePart = async (content) => {
     if (!content) return;
 
+    setCreatePartLoading(true);
+
     const res = await fetch(`/api/stories/${story.id}/parts`, {
       method: 'POST',
       headers: {
@@ -83,8 +88,9 @@ const Story = ({isMain, ...props}) => {
 
       return;
     }
-
     fetchParts(story.id);
+    setCreatePartLoading(false);
+    setEditing(false);
   };
 
   useEffect(() => {
@@ -123,37 +129,44 @@ const Story = ({isMain, ...props}) => {
           <div>Fetching the story parts...</div>
         ) : (
           <>
-            {parts.length > 0 ? parts.map((part, index) => (
-              <React.Fragment key={part.id}>
-                <StoryPart
-                  author={part.author?.full_name}
-                  editing={part.editing}
-                  onSubmitEditing={handleCreatePart}
-                  onDiscardEditing={() => {
-                    setEditing(null);
-                    setParts(parts.filter((p) => !p.editing));
-                  }}
-                  createdAt={part.created_at}
-                  color={getUserColor(part.author?.id)}
-                >
-                  {part.content}
-                </StoryPart>
-                {false ? (
-                  <span
-                    className={`${styles.addPart} ${
-                      index === parts.length - 1 ? styles.visible : ''
-                    }`}
-                    onClick={handleAddPartClick}
+            {parts.length > 0 ? (
+              parts.map((part, index) => (
+                <React.Fragment key={part.id}>
+                  <StoryPart
+                    author={part.author?.full_name}
+                    editing={part.editing}
+                    createPartLoading={createPartLoading}
+                    onSubmitEditing={handleCreatePart}
+                    onDiscardEditing={() => {
+                      setEditing(null);
+                      setParts(parts.filter((p) => !p.editing));
+                    }}
+                    createdAt={part.created_at}
+                    color={getUserColor(part.author?.id)}
                   >
-                    +
-                  </span>
-                ) : (
-                  <span
-                    className={`${styles.addPart} ${styles.placeholder}`}
-                  ></span>
-                )}
-              </React.Fragment>
-            )) : <div className={styles.empty}>[ Be the first one who adds a part to this story ]</div>}
+                    {part.content}
+                  </StoryPart>
+                  {false ? (
+                    <span
+                      className={`${styles.addPart} ${
+                        index === parts.length - 1 ? styles.visible : ''
+                      }`}
+                      onClick={handleAddPartClick}
+                    >
+                      +
+                    </span>
+                  ) : (
+                    <span
+                      className={`${styles.addPart} ${styles.placeholder}`}
+                    ></span>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+              <div className={styles.empty}>
+                [ Be the first one who adds a part to this story ]
+              </div>
+            )}
             {!editing && (
               <button
                 className={`${styles.addPart} ${styles.visible}`}

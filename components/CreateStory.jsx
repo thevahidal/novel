@@ -7,6 +7,7 @@ import styles from '../styles/CreateStory.module.css';
 const CreateStory = () => {
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [createStoryLoading, setCreateStoryLoading] = useState(false);
 
   const session = useSession();
 
@@ -16,7 +17,7 @@ const CreateStory = () => {
     if (!title) {
       alert('Title is required.');
     }
-
+    setCreateStoryLoading(true)
     const res = await fetch('/api/stories', {
       method: 'POST',
       headers: {
@@ -30,6 +31,7 @@ const CreateStory = () => {
     const { data: { id } } = await res.json();
 
     setShowModal(false);
+    setCreateStoryLoading(false)
 
     window.location.href = `/stories/${id}`
   };
@@ -65,7 +67,7 @@ const CreateStory = () => {
             />
           </div>
 
-          <button type='submit'>Submit</button>
+          <button type='submit' disabled={createStoryLoading}>{!createStoryLoading ? 'Submit' : 'Submitting...'}</button>
         </form>
       </Modal>
     </>
