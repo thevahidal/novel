@@ -8,6 +8,7 @@ body {
   --custom-color: #fff;
   --custom-color-brand: #24b47e;
   --custom-color-secondary: #666;
+  --custom-color-danger: #b42424;
   --custom-border: 1px solid #333;
   --custom-border-radius: 5px;
   --custom-spacing: 5px;
@@ -241,12 +242,19 @@ button,
   cursor: pointer;
   text-align: center;
   font-size: 0.9rem;
+  margin-bottom: 0.3rem;
 }
 
 button.primary,
 .button.primary {
   background-color: var(--custom-color-brand);
   border: 1px solid var(--custom-color-brand);
+}
+
+button.danger,
+.button.danger {
+  background-color: var(--custom-color-danger);
+  border: 1px solid var(--custom-color-danger);
 }
 
 /* Widgets */

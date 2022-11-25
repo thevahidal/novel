@@ -83,6 +83,7 @@ export default async (req, res) => {
       .eq('is_published', true)
       .eq('is_featured', is_featured)
       .eq('is_cover', is_cover)
+      .is('deleted_at', null)
       .limit(limit)
       .order('created_at', {
         ascending: false,

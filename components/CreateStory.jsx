@@ -17,7 +17,7 @@ const CreateStory = () => {
     if (!title) {
       alert('Title is required.');
     }
-    setCreateStoryLoading(true)
+    setCreateStoryLoading(true);
     const res = await fetch('/api/stories', {
       method: 'POST',
       headers: {
@@ -28,12 +28,14 @@ const CreateStory = () => {
       }),
     });
 
-    const { data: { id } } = await res.json();
+    const {
+      data: { id },
+    } = await res.json();
 
     setShowModal(false);
-    setCreateStoryLoading(false)
+    setCreateStoryLoading(false);
 
-    window.location.href = `/stories/${id}`
+    window.location.href = `/stories/${id}`;
   };
 
   const handleShow = () => {
@@ -66,8 +68,19 @@ const CreateStory = () => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-
-          <button type='submit' disabled={createStoryLoading}>{!createStoryLoading ? 'Submit' : 'Submitting...'}</button>
+          <div>
+            <button
+              className='primary'
+              type='submit'
+              disabled={createStoryLoading}
+            >
+              {!createStoryLoading ? 'Submit' : 'Submitting...'}
+            </button>
+            <br />
+            <button onClick={handleClose} disabled={createStoryLoading}>
+              No, forget it.
+            </button>
+          </div>
         </form>
       </Modal>
     </>
