@@ -73,6 +73,7 @@ export default async (req, res) => {
       )
       .eq('story', storyId)
       .eq('is_published', true)
+      .is('deleted_at', null)
       .order('created_at', {
         ascending: true,
       });

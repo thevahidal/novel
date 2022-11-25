@@ -6,7 +6,7 @@
 }
 
 .story .title {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .story .body {
@@ -41,12 +41,16 @@
 }
 
 .main {
-    font-weight: bold;
-    color: var(--custom-color-brand);
+  font-weight: bold;
+  color: var(--custom-color-brand);
 }
 
 .empty {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.actions {
+  margin-bottom: 1rem;
 }

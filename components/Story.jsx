@@ -4,6 +4,7 @@ import { useUser, useSession } from '@supabase/auth-helpers-react';
 import { useUserColorStore, useUserStore } from '../store/store';
 import styles from '../styles/Story.module.css';
 import StoryPart from './StoryPart';
+import DeleteStory from './DeleteStory';
 
 const Story = ({ isMain, ...props }) => {
   const [parts, setParts] = useState([]);
@@ -106,6 +107,9 @@ const Story = ({ isMain, ...props }) => {
 
   return (
     <main className={styles.story}>
+      {(story.author?.id === user?.id) && <div className={styles.actions}>
+        <DeleteStory id={props.story?.id} />
+        </div>}
       {isMain && <div className={styles.main}># Cover Story</div>}
       {storyLoading ? (
         <>

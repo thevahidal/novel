@@ -57,6 +57,7 @@ export default async (req, res) => {
       `
       )
       .eq('is_published', true)
+      .is('deleted_at', null)
       .eq('id', partId)
       .single();
     res.status(status).json({ data, error });
