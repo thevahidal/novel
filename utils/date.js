@@ -9,9 +9,14 @@ export const formatRelatedDate = (date) => {
     return formatter.format(seconds, 'second');
   } else if (Math.abs(hours) < 1) {
     return formatter.format(minutes, 'minute');
-  } else if (Math.abs(days) < 7) {
+  } else if (Math.abs(days) < 1) {
     return formatter.format(hours, 'hour');
-  } else {
+  } else if (Math.abs(days) < 7) {
     return formatter.format(days, 'day');
+  } else {
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(date));
   }
 };
