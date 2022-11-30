@@ -3,11 +3,14 @@ import { useSession } from '@supabase/auth-helpers-react';
 
 import Modal from './Modal';
 import styles from '../styles/CreateStory.module.css';
+import { useUserStore } from '../store/store';
 
 const CreateStory = () => {
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [createStoryLoading, setCreateStoryLoading] = useState(false);
+
+  const user = useUserStore((state) => state.user);
 
   const session = useSession();
 
@@ -29,18 +32,45 @@ const CreateStory = () => {
     });
 
     const {
-      data: { id },
+      error,
+      data,
     } = await res.json();
+
+    if (error) {
+      switch (error) {
+        case 'incomplete_profile':
+          alert(
+            'You need to complete your profile to be able to create stories.'
+          );
+          window.location.href =
+            '/user/account/?error=incomplete_profile&callback=/';
+          break;
+
+        default:
+          break;
+      }
+
+      return;
+    }
 
     setShowModal(false);
     setCreateStoryLoading(false);
 
-    window.location.href = `/stories/${id}`;
+    window.location.href = `/stories/${data?.id}`;
   };
 
   const handleShow = () => {
     if (!session) {
       alert('You need to login in order to create an story!');
+      window.location.href = '/auth/login?callback=/';
+
+      return;
+    }
+
+    if (!user?.full_name) {
+      alert(
+        'You need to complete your profile to be able to create stories.'
+      );
       window.location.href = '/auth/login?callback=/';
 
       return;

@@ -41,6 +41,13 @@ const Story = ({ isMain, ...props }) => {
       return;
     }
 
+    if (!userData?.full_name) {
+      alert('You need to login in order to add story parts!');
+      window.location.href = '/auth/login?callback=/';
+
+      return;
+    }
+
     setEditing(parts.length + 1);
     setParts([
       ...parts,
@@ -128,7 +135,7 @@ const Story = ({ isMain, ...props }) => {
         </h1>
       )}
 
-      <div className={styles.body}>
+      { story?.id && <div className={styles.body}>
         {partsLoading ? (
           <div>Fetching the story parts...</div>
         ) : (
@@ -137,6 +144,7 @@ const Story = ({ isMain, ...props }) => {
               parts.map((part, index) => (
                 <React.Fragment key={part.id}>
                   <StoryPart
+                    id={part.id}
                     author={part.author?.full_name}
                     editing={part.editing}
                     createPartLoading={createPartLoading}
@@ -184,7 +192,7 @@ const Story = ({ isMain, ...props }) => {
             )}
           </>
         )}
-      </div>
+      </div>}
     </main>
   );
 };
