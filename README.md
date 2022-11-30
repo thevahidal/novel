@@ -6,6 +6,8 @@
 <p align="center">A collaborative storytelling</p>
 
 
+![Demo](docs/images/novel-landing.png)
+
 ## Development
 
 Novel is powered by Supabase and to run it locally you need to first create a Free account.
