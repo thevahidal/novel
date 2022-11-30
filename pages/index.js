@@ -88,7 +88,7 @@ export default function Home() {
       <Head>
         <title>Novel</title>
         <meta name='description' content='A collaborative story-telling' />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href='/logo.png' />
       </Head>
       <Story story={story} loading={storyLoading} isMain={true} />
       <FeaturedStories stories={featured} loading={featuredLoading} />
