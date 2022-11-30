@@ -1,5 +1,9 @@
-# Novel
-A collaborative story-telling
+
+<p align="center">
+    <img src="docs/images/logo.png" height="100px">
+</p>
+<h1 align="center">Novel</h1>
+<p align="center">A collaborative storytelling</p>
 
 ## Development
 Install the dependencies:
