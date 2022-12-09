@@ -67,7 +67,7 @@ const CreateStory = () => {
 
   return (
     <>
-      <button className="button" onClick={handleShow}>
+      <button className={styles.button} onClick={handleShow}>
         Create a Story
       </button>
       <Modal show={showModal} headerTitle="Create Story" onClose={handleClose}>

@@ -1,5 +1,34 @@
-
-
 .inputWrapper {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.button {
+  border: 1px solid var(--custom-color-brand);
+  transition: all 0.2s ease-in;
+  position: relative;
+  z-index: 2;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  border-radius: 5px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--custom-color-brand);
+  opacity: 0;
+  transition: all 0.3s ease-in;
+  z-index: -1;
+}
+
+.button:hover::after {
+  opacity: 1;
+  height: 100%;
+}
+
+.button:hover {
+  transform: scale(1.055);
+  border: none;
 }

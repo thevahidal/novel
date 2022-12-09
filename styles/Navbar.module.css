@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .navbar .brand {
@@ -33,11 +32,18 @@
 }
 
 .navbar .links a {
-  padding: 0 0.5rem;
+  padding: 0.3rem 1.2rem;
   cursor: pointer;
   text-decoration: none;
+  margin-right: 20px;
+  background-color: var(--custom-color);
+  color: #000;
+  border-radius: 10px;
+  transition: all 0.3s ease-in;
 }
 
 .navbar .links a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  background-color: var(--custom-color-brand);
+  color: #fff;
 }
